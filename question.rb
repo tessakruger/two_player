@@ -1,2 +1,2 @@
-class Twoop
+class Question
 end

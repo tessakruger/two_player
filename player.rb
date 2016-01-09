@@ -1,3 +1,8 @@
+require 'colorize'
+require_relative './colours'
+#require_relative './life'
+require 'pry'
+
 class Player
 
 	attr_reader :life
@@ -11,6 +16,14 @@ class Player
 		@life > 0
 	end
 
+	def lose_life
+		@life -= 1
+	end
+
+	def gain_life
+		@life += 1
+	end
+
 		def random_question
 			num1 = (1..10).to_a.sample
 			num2 = (1..10).to_a.sample
@@ -20,8 +33,9 @@ class Player
 			actual_answer = num1.send(syms, num2)
 			answer = (actual_answer == user_answer.to_i)
 				if answer
+					gain_life
 				else
-					@life -= 1
+					lose_life
 				end
 		end
 
@@ -37,12 +51,19 @@ puts "Enter name for Player 2: "
 @person1 = Player.new(@player_1)
 @person2 = Player.new(@player_2)
 
+
 	while @person1.is_alive? && @person2.is_alive?
 		@person1.random_question
-		puts "#{@player_1} has #{@person1.life} lives remaining. #{@player_2} has #{@person2.life} lives remaining."
+		print "#{@player_1} ".bold.blue
+		puts "has #{@person1.life} lives remaining."
+		print "#{@player_2} ".bold.green
+		puts "has #{@person2.life} lives remaining."
 		break if !@person1.is_alive?
 		@person2.random_question
-		puts "#{@player_1} has #{@person1.life} lives remaining. #{@player_2} has #{@person2.life} lives remaining."
+		print "#{@player_1} ".bold.blue
+		puts "has #{@person1.life} lives remaining."
+		print "#{@player_2} ".bold.green
+		puts "has #{@person2.life} lives remaining."
 	end
 	
 end
